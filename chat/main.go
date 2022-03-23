@@ -18,7 +18,7 @@ type templateHandler struct {
 // ServerHttpはHttpリクエストを処理する
 func (t *templateHandler) ServeHTTP(w http.ResponseWriter, r *http.Request) {
 	t.once.Do(func() {
-		t.templ = template.Must(template.ParseFiles(filepath.Join("templates", t.filename)))
+		t.templ = template.Must(template.ParseFiles(filepath.Join("chat/", t.filename)))
 	})
 
 	t.templ.Execute(w, nil)
@@ -27,7 +27,7 @@ func (t *templateHandler) ServeHTTP(w http.ResponseWriter, r *http.Request) {
 func main() {
 	r := newRoom()
 
-	http.Handle("/", &templateHandler{filename: "chat.html"})
+	http.Handle("/", &templateHandler{filename: "templates/chat.html"})
 	http.Handle("/room", r)
 
 	go r.run()
